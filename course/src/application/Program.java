@@ -1,23 +1,41 @@
 package application;
 
-import java.util.Date;
-
-import entities.Order;
-import entities.enums.OrderStatus;
+import entities.Account;
+import entities.BusinessAccount;
+import entities.SavingsAccount;
 
 public class Program {
 
 	public static void main(String[] args) {
 		
-		Order order = new Order(1080, new Date(), OrderStatus.PENDING_PAYMENT);
+		Account acc = new Account(1001, "Alex", 0.0);
+		BusinessAccount bacc = new BusinessAccount(1002, "Maria", 0.0, 500.0);
 		
-		System.out.println(order);
+		// UPCASTING
 		
-		OrderStatus os1 = OrderStatus.DELIVERED;
-		OrderStatus os2 = OrderStatus.valueOf("DELIVERED");
+		Account acc1 = bacc;
+		Account acc2 = new BusinessAccount(1003, "Bob", 0.0, 200.0);
+		Account acc3 = new SavingsAccount(1004, "Anna", 0.0, 0.01);
 		
-		System.out.println(os1);
-		System.out.println(os2);
+		// DOWNCASTING
+		
+		BusinessAccount acc4 = (BusinessAccount) acc2;
+		acc4.loan(100.0);
+		
+		// BusinessAccount acc5 = (BusinessAccount) acc3;
+		
+		if (acc3 instanceof BusinessAccount) {
+			BusinessAccount acc5 = (BusinessAccount) acc3;
+			acc5.loan(200.0);
+			System.out.println("Loan!");
+		}
+		
+		if (acc3 instanceof SavingsAccount) {
+			SavingsAccount acc5 = (SavingsAccount) acc3;
+			acc5.updateBalance();
+			System.out.println("Update!");
+		}
+		
 		
 	}
 	
