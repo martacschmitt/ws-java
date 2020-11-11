@@ -3,37 +3,53 @@ package application;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Scanner;
 
-import entities.Account;
-import entities.BusinessAccount;
-import entities.SavingsAccount;
+import entities.Shape;
+import entities.Circle;
+import entities.Rectangle;
+import entities.enums.Color;
 
 public class Program {
 
 	public static void main(String[] args) {
 		
 		Locale.setDefault(Locale.US);
-		List<Account> list = new ArrayList<>();
+		Scanner sc = new Scanner(System.in);
 		
-		list.add(new SavingsAccount(1001, "Alex", 500.0, 0.01));
-		list.add(new BusinessAccount(1002, "Maria", 1000.0, 400.0));
-		list.add(new SavingsAccount(1004, "Bob", 300.0, 0.01));
-		list.add(new BusinessAccount(1005, "Anna", 500.0, 500.0));
+		List<Shape> list = new ArrayList<>();
 		
-		double sum = 0.0;
-		for (Account account : list) {
-			sum += account.getBalance();
+		System.out.print("Enter the numbre of shapes: ");
+		int n = sc.nextInt();
+		
+		for (int i = 1; i <= n; i++) {
+			System.out.println("Shape #" + i + " data:");
+			System.out.print("Rectangle or Circle (r/c)? ");
+			char ch = sc.next().charAt(0);
+			System.out.print("Color (BLACK/BLUE/RED): ");
+			Color color = Color.valueOf(sc.next());
+			if (ch == 'r') {
+				System.out.print("Width: ");
+				double width = sc.nextDouble();
+				System.out.print("Height: ");
+				double height = sc.nextDouble();
+				list.add(new Rectangle(color, width, height));
+			} else {
+				System.out.print("Radius: ");
+				double radius = sc.nextDouble();
+				list.add(new Circle(color, radius));
+			}
 		}
 		
-		System.out.printf("Total balance: %.2f%n", sum);
+		System.out.println();
+		System.out.println("SHAPE AREAS:");
 		
-		for (Account account : list) {
-			account.deposit(10.0);
+		for (Shape shape : list) {
+			System.out.println(String.format("%.2f", shape.area()));
 		}
 		
-		for (Account account : list) {
-			System.out.printf("Updated balance for account %d: %.2f%n", account.getNumber(), account.getBalance());
-		}
+		sc.close();
+		
 	}
 	
 }
